@@ -1,6 +1,6 @@
 const assets = {
   images: {
-    logo: require("./images/typescript-logo-240.png")
+    logo: require("./images/snap_raise_logo.png")
   }
 };
 

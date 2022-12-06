@@ -7,15 +7,16 @@ import ChangelogPage from "../pages/changelog/ChangelogPage";
 import AnalyticsPage from "../pages/dashboard/AnalyticsPage";
 import SaasPage from "../pages/dashboard/SaasPage";
 import ComponentPageLayout from "../pages/component/ComponentPageLayout";
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import AlertPage from "../pages/component/AlertPage";
+import FacilitiesPage from "../pages/component/FacilitiesPage";
 import ButtonPage from "../pages/component/ButtonPage";
 import InstallationPage from "../pages/installation/InstallationPage";
 import DocumentationPage from "../pages/documentation/DocumentationPage";
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
+import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
 
 const appRoutes: RouteType[] = [
   {
@@ -28,8 +29,8 @@ const appRoutes: RouteType[] = [
     element: <InstallationPage />,
     state: "installation",
     sidebarProps: {
-      displayText: "Installation",
-      icon: <FileDownloadOutlinedIcon />
+      displayText: "Events",
+      icon: <CalendarMonthOutlinedIcon />
     }
   },
   {
@@ -37,8 +38,8 @@ const appRoutes: RouteType[] = [
     element: <DashboardPageLayout />,
     state: "dashboard",
     sidebarProps: {
-      displayText: "Dashboard",
-      icon: <DashboardOutlinedIcon />
+      displayText: "Notices",
+      icon: <MailOutlineOutlinedIcon />
     },
     child: [
       {
@@ -77,16 +78,16 @@ const appRoutes: RouteType[] = [
     element: <ComponentPageLayout />,
     state: "component",
     sidebarProps: {
-      displayText: "Components",
-      icon: <AppsOutlinedIcon />
+      displayText: "Maintenance",
+      icon: <BuildOutlinedIcon />
     },
     child: [
       {
-        path: "/component/alert",
-        element: <AlertPage />,
-        state: "component.alert",
+        path: "/component/facility",
+        element: <FacilitiesPage />,
+        state: "component.facility",
         sidebarProps: {
-          displayText: "Alert"
+          displayText: "Facilities"
         },
       },
       {
@@ -94,7 +95,39 @@ const appRoutes: RouteType[] = [
         element: <ButtonPage />,
         state: "component.button",
         sidebarProps: {
-          displayText: "Button"
+          displayText: "Levels"
+        }
+      },
+      {
+        path: "/component/button",
+        element: <ButtonPage />,
+        state: "component.button",
+        sidebarProps: {
+          displayText: "Officials"
+        }
+      },
+      {
+        path: "/component/button",
+        element: <ButtonPage />,
+        state: "component.button",
+        sidebarProps: {
+          displayText: "Opponents"
+        }
+      },
+      {
+        path: "/component/button",
+        element: <ButtonPage />,
+        state: "component.button",
+        sidebarProps: {
+          displayText: "Preparations"
+        }
+      },
+      {
+        path: "/component/button",
+        element: <ButtonPage />,
+        state: "component.button",
+        sidebarProps: {
+          displayText: "Workers"
         }
       }
     ]
@@ -108,15 +141,15 @@ const appRoutes: RouteType[] = [
       icon: <ArticleOutlinedIcon />
     }
   },
-  {
-    path: "/changelog",
-    element: <ChangelogPage />,
-    state: "changelog",
-    sidebarProps: {
-      displayText: "Changelog",
-      icon: <FormatListBulletedOutlinedIcon />
-    }
-  }
+  // {
+  //   path: "/changelog",
+  //   element: <ChangelogPage />,
+  //   state: "changelog",
+  //   sidebarProps: {
+  //     displayText: "Changelog",
+  //     icon: <FormatListBulletedOutlinedIcon />
+  //   }
+  // }
 ];
 
 export default appRoutes;
