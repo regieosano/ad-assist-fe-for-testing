@@ -16,9 +16,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useEffect } from 'react';
 
 
 const FacilitiesPage = () => {
+
+ 
 
   const facilitiesColumns = [
     {
@@ -72,6 +75,8 @@ const FacilitiesPage = () => {
     },
   ];
 
+ 
+
   const [schoolCode, setSchoolCode] = React.useState("");
   const [placeName, setPlaceName] = React.useState("");
   const [address1, setAddress1] = React.useState("");
@@ -79,11 +84,18 @@ const FacilitiesPage = () => {
   const [city, setCity] = React.useState("");
   const [state, setState] = React.useState("");
   const [zipCode, setZipCode] = React.useState("");
+  const [wasQueryOfData, setWasQueryOfData] = React.useState(false);
+  const [queryOfFacilitesData, setQueryOfFacilitiesData] = React.useState([]);
   const [hasAllEntries, setHasAllEntries] = React.useState(false);
+  const [field, setField] = React.useState("placeName");
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  
+
+ 
   
   const [createFacility, {loading: createFacilityLoading, error: createFacilityError, data: createFacilityData}] = useMutation(ADD_FACILITY, {
     refetchQueries: [
@@ -91,6 +103,12 @@ const FacilitiesPage = () => {
       'Facilities'
     ],
   });
+
+  const {loading, error, data } = useQuery(GET_FACILITIES);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Something Went Wrong</p>
+  const { facilities } = data;
+ 
 
   
   const handleSave = () => {
@@ -108,6 +126,25 @@ const FacilitiesPage = () => {
       input: newFacility
     }});
     handleClose();
+  }
+
+  const handleChangeField = (event: any) => {
+    setField(event.target.value);
+  };
+
+  const handleSearchQuery = (e: any) => {
+    const dataStringSearch = e.target.value
+    if (dataStringSearch === "") {
+      setWasQueryOfData(false);
+    } else {
+      const dataSearchParameterLowerCase = dataStringSearch.toLowerCase();
+      const queriedFacilities = facilities.filter((facility: any) => {
+         return facility[field].toLowerCase().includes(dataSearchParameterLowerCase.toLowerCase());
+      });
+      setQueryOfFacilitiesData(queriedFacilities);
+      setWasQueryOfData(true);
+    }
+   
   }
 
   const setFacilityData = (e: any) => {
@@ -136,12 +173,28 @@ const FacilitiesPage = () => {
      
   }
 
-  const { loading, error, data } = useQuery(GET_FACILITIES);
-	if (loading) return <p>Loading...</p>;
-	if (error) return <p>Something Went Wrong</p>
-    
-  const { facilities } = data;
+  const fields = [
+    {
+      value: 'placeName',
+      label: 'Place Name',
+    },
+    {
+      value: 'address1',
+      label: 'Address 1',
+    },
+    {
+      value: 'address2',
+      label: 'Address 2',
+    },
+    {
+      value: 'city',
+      label: 'City',
+    },
+  ];
   
+
+   
+   
   return (
     <>
        <Typography variant="h6">
@@ -153,21 +206,24 @@ const FacilitiesPage = () => {
        >
           <TextField
              label="Search..."
+             onChange={(e) => handleSearchQuery(e)}
           />
           <Box sx={{ minWidth: 120 }}>
            <FormControl fullWidth>
-             <InputLabel id="demo-simple-select-label">
-                Field
-             </InputLabel>
-             <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Field"
+             
+             <TextField
+                id="select-field-query"
+                select
+                value={field}
+                onChange={handleChangeField}
+                helperText="Please select your query field"
              >
-                <MenuItem >Place Name</MenuItem>
-                <MenuItem >Address</MenuItem>
-                <MenuItem >City</MenuItem>
-             </Select>
+                {fields.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+             </TextField>
            </FormControl>
           </Box>  
        </Box>
@@ -183,8 +239,7 @@ const FacilitiesPage = () => {
        />
 
        <DataTable 
-       
-          arrayOfData={facilities}
+          arrayOfData={!wasQueryOfData ? facilities: queryOfFacilitesData}
           columns={facilitiesColumns}
        />
    
