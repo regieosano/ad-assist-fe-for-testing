@@ -183,6 +183,7 @@ const FacilitiesPage = () => {
        />
 
        <DataTable 
+       
           arrayOfData={facilities}
           columns={facilitiesColumns}
        />
