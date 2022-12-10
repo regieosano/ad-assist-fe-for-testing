@@ -73,12 +73,12 @@ const DataTable = (props: any) => {
                             : column.id === 'edit'
                             ? <EditOutlinedIcon 
                                 style={{cursor: 'pointer'}}
-                                onClick={() => console.log("Edit")}
+                                onClick={() => props.handleEditRecord(row)}
                               />
                             : column.id === 'delete'
                             ? <DeleteOutlinedIcon
                                 style={{cursor: 'pointer'}}
-                                onClick={() => console.log("Delete")}
+                                onClick={() => props.handleDeleteRecord(row)}
                               />
                             :value}
                         </StyledTableCell>
@@ -91,7 +91,7 @@ const DataTable = (props: any) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10]}
+        rowsPerPageOptions={[1, 3, 5, 10, 20]}
         component="div"
         count={props.arrayOfData.length}
         rowsPerPage={rowsPerPage}

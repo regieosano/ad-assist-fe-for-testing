@@ -8,9 +8,15 @@ import Typography from '@mui/material/Typography';
 const DataModal = (
 	  props: {
 		   open: boolean;
+			 isEdit: boolean;
+			 isAdd: boolean;
+			 isDelete: boolean;
+			 rowEditData: any;
+			 recordRowObjectForUpdate: object;
 		   handleClose: Function;
 		   handleSave: Function;
 		   handleValueChanged: Function;
+			 handleValueChangedAsEdited: Function;
 			 columns: Array<object>;
 			 hasAllEntries: boolean;
 	  }
@@ -30,7 +36,7 @@ const DataModal = (
 
 
 	return (
-		<Modal
+        <Modal
 	   aria-labelledby="transition-modal-title"
      aria-describedby="transition-modal-description"
      open={props.open}
@@ -41,7 +47,10 @@ const DataModal = (
 			<Fade in={props.open}>
 				<Box sx={style}>
 					<Typography id="transition-modal-title" variant="h6">
-						 Add New Facility
+						{ props.isAdd ? "Add New Facility": 
+						  props.isEdit ? "Edit Facility":
+							"Delete Facility"
+					  }
 					</Typography>
 					<Box
 						component="form"
@@ -53,16 +62,18 @@ const DataModal = (
 									sx={{
 										width: 700
 									}}
-									required
+									defaultValue={props.isEdit ? props.rowEditData["schoolCode"]: ""}
+									required={props.isAdd ? true: false}
+									disabled={props.isDelete}
 									id="schoolCode"
 									label="School Code"
-									onChange={(e) => props.handleValueChanged(e)}
-									
+									onChange={!props.isEdit ? (e) => props.handleValueChanged(e): (e) => props.handleValueChangedAsEdited(e)}
+														
 						/>
 					</Box>
 					{
 						props.columns.map((column: any, index: number) => {
-							if (column.id !== "no" && column.id !== "edit" && column.id !== "delete") {
+							if (column.id !== "no" && column.id !== "edit" + "" && column.id !== "delete") {
 								return (
 									<Box
 										component="form"
@@ -75,10 +86,15 @@ const DataModal = (
 												sx={{ 
 													width: 700
 												}}
-												required
+												// value={props.isEdit ? props.rowEditData[column.id]: ""}
+												disabled={props.isDelete}
+												required={!props.isEdit ? true: false}
 												id={column.id}
 												label={column.label}
-												onChange={(e) => props.handleValueChanged(e)}
+												onChange={!props.isEdit ? (e) => props.handleValueChanged(e): (e) => props.handleValueChangedAsEdited(e)}
+												defaultValue={props.isEdit ? props.rowEditData[column.id]:
+												             props.isDelete ? props.recordRowObjectForUpdate: ""
+												}
 										/>
 									</Box>
 						  	)
@@ -95,9 +111,12 @@ const DataModal = (
 							<Button 
 								variant="contained"
 								onClick={() => props.handleSave()}
-								disabled={!props.hasAllEntries}
+								disabled={false}
 							>
-								Save
+								{ props.isEdit ? "Update":
+								  props.isDelete ? "Delete":
+									"Save"
+								}
 							</Button>			
 						</Box>
 						<Box>
@@ -114,7 +133,7 @@ const DataModal = (
 				</Box>
 			</Fade>
 		</Modal>
-	)
+    );
 	
 }
 
