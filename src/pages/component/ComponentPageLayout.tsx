@@ -1,11 +1,13 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 type Props = {};
 
 const ComponentPageLayout = (props: Props) => {
   return (
-    <><Outlet /></>
+    <>
+      <Outlet />
+    </>
   );
 };
 

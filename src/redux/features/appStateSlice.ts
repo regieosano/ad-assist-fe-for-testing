@@ -5,7 +5,7 @@ type appState = {
 };
 
 const initialState: appState = {
-  appState: ""
+  appState: "",
 };
 
 export const appStateSlice = createSlice({
@@ -14,12 +14,10 @@ export const appStateSlice = createSlice({
   reducers: {
     setAppState: (state, action: PayloadAction<string>) => {
       state.appState = action.payload;
-    }
-  }
+    },
+  },
 });
 
-export const {
-  setAppState
-} = appStateSlice.actions;
+export const { setAppState } = appStateSlice.actions;
 
 export default appStateSlice.reducer;

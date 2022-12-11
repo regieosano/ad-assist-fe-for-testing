@@ -1,18 +1,18 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const ADD_FACILITY = gql`
-   mutation CreateFacility($input: CreateFacilityInput) {
-     createFacility(input: $input) {
-        schoolCode
-        placeName
-        address1
-        address2
-        directions
-        city
-        state
-        zipCode
-   }
-}
+  mutation CreateFacility($input: CreateFacilityInput) {
+    createFacility(input: $input) {
+      schoolCode
+      placeName
+      address1
+      address2
+      directions
+      city
+      state
+      zipCode
+    }
+  }
 `;
 
 export const EDIT_FACILITY = gql`
@@ -27,8 +27,8 @@ export const EDIT_FACILITY = gql`
       city
       state
       zipCode
+    }
   }
-} 
 `;
 
 export const DELETE_FACILITY = gql`
@@ -40,6 +40,5 @@ export const DELETE_FACILITY = gql`
       address2
       city
     }
-  } 
+  }
 `;
-

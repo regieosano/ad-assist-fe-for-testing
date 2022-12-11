@@ -1,26 +1,26 @@
-import * as React from 'react';
-import { useQuery, useMutation, gql } from '@apollo/client';
-import { GET_FACILITIES } from '../../graphql/facility/queries';
-import { ADD_FACILITY,
-         EDIT_FACILITY,
-         DELETE_FACILITY
-       } from '../../graphql/facility/mutations';
+/* eslint-disable @typescript-eslint/no-shadow */
+import * as React from "react";
+import { useQuery, useMutation, gql } from "@apollo/client";
+import { GET_FACILITIES } from "../../graphql/facility/queries";
+import {
+  ADD_FACILITY,
+  EDIT_FACILITY,
+  DELETE_FACILITY,
+} from "../../graphql/facility/mutations";
 
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
-import Typography from '@mui/material/Typography';
+import Typography from "@mui/material/Typography";
 
-import DataModal from '../../components/reusable/DataModal';
-import DataTable from '../../components/reusable/DataTable';
+import DataModal from "../../components/reusable/DataModal";
+import DataTable from "../../components/reusable/DataTable";
 
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 
 const FacilitiesPage = () => {
-
   const fields = [
     {
       value: "placeName",
@@ -45,56 +45,49 @@ const FacilitiesPage = () => {
     {
       value: "zipCode",
       label: "Zip Code",
-    }
+    },
   ];
 
   const facilitiesColumns = [
     {
-      id: 'no',
-      label: 'No.',
+      id: "no",
+      label: "No.",
       minWidth: 70,
     },
-    // { id: 'schoolCode',
-    //   label: 'School Code',
-    //   minWidth: 200,
-    // },
-    { id: 'placeName',
-      label: 'Place Name',
+    { id: "placeName", label: "Place Name", minWidth: 200 },
+    {
+      id: "address1",
+      label: "Address 1",
       minWidth: 200,
     },
     {
-      id: 'address1',
-      label: 'Address 1',
+      id: "address2",
+      label: "Address 2",
       minWidth: 200,
     },
     {
-      id: 'address2',
-      label: 'Address 2',
+      id: "city",
+      label: "City",
       minWidth: 200,
     },
     {
-      id: 'city',
-      label: 'City',
-      minWidth: 200,
-    },
-    {
-      id: 'state',
-      label: 'State',
+      id: "state",
+      label: "State",
       minWidth: 100,
     },
     {
-      id: 'zipCode',
-      label: 'Zip Code',
+      id: "zipCode",
+      label: "Zip Code",
       minWidth: 100,
     },
     {
-      id: 'edit',
-      label: 'Edit',
+      id: "edit",
+      label: "Edit",
       minWidth: 100,
     },
     {
-      id: 'delete',
-      label: 'Delete',
+      id: "delete",
+      label: "Delete",
       minWidth: 100,
     },
   ];
@@ -115,17 +108,18 @@ const FacilitiesPage = () => {
   const [cityAsEdited, setCityAsEdited] = React.useState("");
   const [stateAsEdited, setStateAsEdited] = React.useState("");
   const [zipCodeAsEdited, setZipCodeAsEdited] = React.useState("");
-  const [wasQueryOfData, setWasQueryOfData] = React.useState(false);
+  const [wasQueryOfDataFacility, setWasQueryOfDataFacility] = React.useState(false);
   const [queryOfFacilitiesData, setQueryOfFacilitiesData] = React.useState([]);
   const [hasAllEntries, setHasAllEntries] = React.useState(false);
-  const [field, setField] = React.useState("placeName");
-  const [isDelete, setIsDelete] = React.useState(false);
-  const [isEdit, setIsEdit] = React.useState(false);
-  const [isAdd, setIsAdd] = React.useState(false);
-  const [rowEditData, setRowEditData] = React.useState({});
-  const [recordRowObjectForUpdate, setRecordRowObjectForUpdate] =
-   React.useState(
-    {
+  const [fieldFacility, setFieldFacility] = React.useState("placeName");
+  const [isDeleteFacility, setIsDeleteFacility] = React.useState(false);
+  const [isEditFacility, setIsEditFacility] = React.useState(false);
+  const [isAddFacility, setIsAddFacility] = React.useState(false);
+  const [idOfRecordToBeDeletedFacility, setIdOfRecordToBeDeletedFacility] = React.useState("");
+  const [rowEditDataFacility, setRowEditDataFacility] = React.useState({});
+  const [rowDeleteDataFacility, setRowDeleteDataFacility] = React.useState({});
+  const [recordRowObjectForUpdateFacility, setRecordRowObjectForUpdateFacility] =
+    React.useState({
       id: String,
       schoolCode: String,
       placeName: String,
@@ -133,44 +127,57 @@ const FacilitiesPage = () => {
       address2: String,
       city: String,
       state: String,
-      zipCode: String
-    }
-   );
+      zipCode: String,
+    });
+ 
+
 
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
-      setOpen(true);
-  }
+    setOpen(true);
+  };
   const handleClose = () => {
-      setOpen(false);
-      setSchoolCode("");
-      setPlaceName("");
-      setAddress1("");
-      setAddress2("");
-      setCity("");
-      setState("");
-      setZipCode("");
+    setOpen(false);
+    setSchoolCode("");
+    setPlaceName("");
+    setAddress1("");
+    setAddress2("");
+    setCity("");
+    setState("");
+    setZipCode("");
 
-      setSchoolCodeAsEdited("");
-      setPlaceNameAsEdited("");
-      setAddress1AsEdited("");
-      setAddress2AsEdited("");
-      setCityAsEdited("");
-      setStateAsEdited("");
-      setZipCodeAsEdited("");
-  }
+    setSchoolCodeAsEdited("");
+    setPlaceNameAsEdited("");
+    setAddress1AsEdited("");
+    setAddress2AsEdited("");
+    setCityAsEdited("");
+    setStateAsEdited("");
+    setZipCodeAsEdited("");
+    setIsAddFacility(false);
+    setIsEditFacility(false);
+    setIsDeleteFacility(false);
+  };
 
-    
-  const [createFacility, {loading: createFacilityLoading, error: createFacilityError, data: createFacilityData}] = useMutation(ADD_FACILITY, {
-    refetchQueries: [
-      {query: GET_FACILITIES},
-      'Facilities'
-    ],
+  const [
+    createFacility,
+    {
+      loading: createFacilityLoading,
+      error: createFacilityError,
+      data: createFacilityData,
+    },
+  ] = useMutation(ADD_FACILITY, {
+    refetchQueries: [{ query: GET_FACILITIES }, "Facilities"],
   });
 
-  
-  const [modifyFacility, {loading: modifyFacilityLoading, error: modifyFacilityError, data: modifyFacilityData}] = useMutation(EDIT_FACILITY, {
+  const [
+    modifyFacility,
+    {
+      loading: modifyFacilityLoading,
+      error: modifyFacilityError,
+      data: modifyFacilityData,
+    },
+  ] = useMutation(EDIT_FACILITY, {
     update(cache, { data: { modifyFacility } }) {
       cache.modify({
         fields: {
@@ -187,33 +194,79 @@ const FacilitiesPage = () => {
                   state
                   zipCode
                 }
-              `
+              `,
             });
             return [...existingFacilities, newFacilityRef];
-          }
+          },
         },
-         
       });
     },
   });
 
-  const [deleteFacility, {loading: deleteFacilityLoading, error: deleteFacilityError, data: deleteFacilityData}] = useMutation(DELETE_FACILITY, {
-    refetchQueries: [
-      {query: GET_FACILITIES},
-      'Facilities'
-    ],
-  });  
+  const [
+    deleteFacility,
+    {
+      loading: deleteFacilityLoading,
+      error: deleteFacilityError,
+      data: deleteFacilityData,
+    },
+  ] = useMutation(DELETE_FACILITY, {
+    refetchQueries: [{ query: GET_FACILITIES }, "Facilities"],
+  });
 
-
-  const {loading, error, data } = useQuery(GET_FACILITIES);
+  const { loading, error, data } = useQuery(GET_FACILITIES);
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Something Went Wrong</p>
+  if (error) return <p>Something Went Wrong</p>;
   const { facilities } = data;
-   
-  
-  const handleSaveRecord = () => {
-    if (isEdit) {
-      handleModifiedRecord();
+
+  const handleModifiedRecordFacility = () => {
+    const updatedFacility = {
+      id: recordRowObjectForUpdateFacility.id,
+      schoolCode: schoolCodeAsEdited,
+      placeName: placeNameAsEdited,
+      address1: address1AsEdited,
+      address2: address2AsEdited,
+      directions: "None",
+      city: cityAsEdited,
+      state: stateAsEdited,
+      zipCode: zipCodeAsEdited,
+    };
+    modifyFacility({
+      variables: {
+        input: updatedFacility,
+      },
+    });
+    handleClose();
+  };
+
+  const handleAddRecord = () => {
+    setIsDeleteFacility(false);
+    setIsEditFacility(false);
+    setIsAddFacility(true);
+    handleOpen();
+  };
+
+  const handleRecordToBeDeletedFacility = (recID: string) => {
+    const deleteFacilityID = {
+      id: recID,
+    };
+
+    deleteFacility({
+      variables: {
+        input: deleteFacilityID,
+      },
+    });
+    handleClose();
+  };
+
+
+
+  const handleProcessRecordFacility = () => {
+    if (isEditFacility) {
+      handleModifiedRecordFacility();
+    } else if (isDeleteFacility)
+    {
+      handleRecordToBeDeletedFacility(idOfRecordToBeDeletedFacility); 
     } else {
       try {
         const newFacility = {
@@ -224,251 +277,239 @@ const FacilitiesPage = () => {
           directions: "None",
           city,
           state,
-          zipCode
-        }
-        createFacility( {variables: {
-          input: newFacility
-        },
-        
+          zipCode,
+        };
+        createFacility({
+          variables: {
+            input: newFacility,
+          },
         });
         handleClose();
         // handleSearchQueryBasedOnCurrentFieldStored();
       } catch (error) {
-        alert("There were input error(s)!")
+        alert("There were input error(s)!");
       }
     }
-  }
-
-  const handleRecordToBeDeleted = (recID: string) => {
-    const deleteFacilityID = {
-      id: recID,
-    }
-
-     deleteFacility( {variables: {
-         input: deleteFacilityID
-     }
-
-     });
-     handleClose();
-  }
-
-  const handleValueChangedAsEdited = (e: any) => {
-      setFacilityDataAsEdited(e);
-  }
-
-  const handleModifiedRecord = () => {
-      const updatedFacility = {
-          id: recordRowObjectForUpdate.id,
-          schoolCode: schoolCodeAsEdited,
-          placeName: placeNameAsEdited,
-          address1: address1AsEdited,
-          address2: address2AsEdited,
-          directions: "None",
-          city: cityAsEdited,
-          state: stateAsEdited,
-          zipCode: zipCodeAsEdited
-      }
-      modifyFacility( {variables: {
-         input: updatedFacility
-      }
-        
-      });
-      handleClose();
-      
-  }
-
-  const handleAddRecord = () => {
-    setIsDelete(false);
-    setIsEdit(false);
-    setIsAdd(true);
-    handleOpen();
-  }
-
-  const handleEditRecord = (row: any) => {
-     setRecordRowObjectForUpdate(row);
-     setIsEdit(true);
-     setIsDelete(false);
-     setIsAdd(false);
-     setRowEditData(row);
-     setSchoolCodeAsEdited(row.schoolCode);
-     setPlaceNameAsEdited(row.placeName);
-     setAddress1AsEdited(row.address1);
-     setAddress2AsEdited(row.address2);
-     setCityAsEdited(row.city);
-     setStateAsEdited(row.state);
-     setZipCodeAsEdited(row.zipCode);
-     handleOpen();
-    
-  }
-
-  const handleDeleteRecord = (row: any) => {
-     setIsDelete(true);
-     setIsEdit(false);
-     setIsAdd(false);
-     setRecordRowObjectForUpdate(row);
-     handleOpen();
-    //  handleRecordToBeDeleted(row.id);
-  }
-
-  const handleChangeField = (event: any) => {
-    setField(event.target.value);
-    // handleSearchQueryBasedOnCurrentFieldStored();
   };
 
-  const handleSearchQueryBasedOnCurrentFieldStored = () => {
-    const queriedFacilities = facilities.filter((facility: any) => {
-        return facility[field].toLowerCase().includes(dataSearchParameterLowerCase.toLowerCase());
-    });
-    setQueryOfFacilitiesData(queriedFacilities);
-    setWasQueryOfData(true);
-  }
-
-  const handleSearchQuery = (e: any) => {
-    const dataStringSearch = e.target.value
-    if (dataStringSearch === "") {
-      setWasQueryOfData(false);
-    } else {
-      dataSearchParameterLowerCase = dataStringSearch.toLowerCase();
-      const queriedFacilities = facilities.filter((facility: any) => {
-         return facility[field].toLowerCase().includes(dataSearchParameterLowerCase.toLowerCase());
-      });
-      // facilities = queriedFacilities;
-      setQueryOfFacilitiesData(queriedFacilities);
-      setWasQueryOfData(true);
-    }
-   
-  }
-
   const setFacilityDataAsEdited = (e: any) => {
-    // if (schoolCode.length === 0 
+    // if (schoolCode.length === 0
     //     || placeName.length === 0
     //     || address1.length === 0
     //     || address2.length === 0
     //     || city.length === 0
     //     || state.length === 0
-    //     || zipCode.length === 0) 
+    //     || zipCode.length === 0)
     // {
     //   setHasAllEntries(false);
     // } else {
     //   setHasAllEntries(true);
     // }
-   
+
     switch (e.target.id) {
-      case "schoolCode": setSchoolCodeAsEdited(e.target.value); break;
-      case "placeName": setPlaceNameAsEdited(e.target.value); break;
-      case "address1": setAddress1AsEdited(e.target.value); break;
-      case "address2": setAddress2AsEdited(e.target.value); break;
-      case "city": setCityAsEdited(e.target.value); break;
-      case "state": setStateAsEdited(e.target.value); break;
-      case "zipCode": setZipCodeAsEdited(e.target.value); break;
+    case "schoolCode":
+      setSchoolCodeAsEdited(e.target.value);
+      break;
+    case "placeName":
+      setPlaceNameAsEdited(e.target.value);
+      break;
+    case "address1":
+      setAddress1AsEdited(e.target.value);
+      break;
+    case "address2":
+      setAddress2AsEdited(e.target.value);
+      break;
+    case "city":
+      setCityAsEdited(e.target.value);
+      break;
+    case "state":
+      setStateAsEdited(e.target.value);
+      break;
+    case "zipCode":
+      setZipCodeAsEdited(e.target.value);
+      break;
     }
- 
-   
-}
+  };
 
   const setFacilityData = (e: any) => {
-      // if (schoolCode.length === 0 
-      //     || placeName.length === 0
-      //     || address1.length === 0
-      //     || address2.length === 0
-      //     || city.length === 0
-      //     || state.length === 0
-      //     || zipCode.length === 0) 
-      // {
-      //   setHasAllEntries(false);
-      // } else {
-      //   setHasAllEntries(true);
-      // }
-      switch (e.target.id) {
-        case "schoolCode": setSchoolCode(e.target.value); break;
-        case "placeName": setPlaceName(e.target.value); break;
-        case "address1": setAddress1(e.target.value); break;
-        case "address2": setAddress2(e.target.value); break;
-        case "city": setCity(e.target.value); break;
-        case "state": setState(e.target.value); break;
-        case "zipCode": setZipCode(e.target.value); break;
-      }
-   
-     
-  }
+    // if (schoolCode.length === 0
+    //     || placeName.length === 0
+    //     || address1.length === 0
+    //     || address2.length === 0
+    //     || city.length === 0
+    //     || state.length === 0
+    //     || zipCode.length === 0)
+    // {
+    //   setHasAllEntries(false);
+    // } else {
+    //   setHasAllEntries(true);
+    // }
+    switch (e.target.id) {
+    case "schoolCode":
+      setSchoolCode(e.target.value);
+      break;
+    case "placeName":
+      setPlaceName(e.target.value);
+      break;
+    case "address1":
+      setAddress1(e.target.value);
+      break;
+    case "address2":
+      setAddress2(e.target.value);
+      break;
+    case "city":
+      setCity(e.target.value);
+      break;
+    case "state":
+      setState(e.target.value);
+      break;
+    case "zipCode":
+      setZipCode(e.target.value);
+      break;
+      
+    }
+  };
+
+
+  const handleValueChangedAsEditedFacility = (e: any) => {
+    setFacilityDataAsEdited(e);
+  };
+
+  
+  const handleEditRecordFacility = (row: any) => {
+    setRecordRowObjectForUpdateFacility(row);
+    setIsEditFacility(true);
+    setIsDeleteFacility(false);
+    setIsAddFacility(false);
+    setRowEditDataFacility(row);
+    setSchoolCodeAsEdited(row.schoolCode);
+    setPlaceNameAsEdited(row.placeName);
+    setAddress1AsEdited(row.address1);
+    setAddress2AsEdited(row.address2);
+    setCityAsEdited(row.city);
+    setStateAsEdited(row.state);
+    setZipCodeAsEdited(row.zipCode);
+    handleOpen();
+  };
+
+  const handleDeleteRecordFacility = (row: any) => {
+    setIsDeleteFacility(true);
+    setIsEditFacility(false);
+    setIsAddFacility(false);
+    setRowDeleteDataFacility(row);
+    setIdOfRecordToBeDeletedFacility(row.id);
+    handleOpen();
+  };
+
+  const handleChangeFieldFacility = (event: any) => {
+    setFieldFacility(event.target.value);
+    // handleSearchQueryBasedOnCurrentFieldStored();
+  };
+
+  // const handleSearchQueryBasedOnCurrentFieldStored = () => {
+  //   const queriedFacilities = facilities.filter((facility: any) => {
+  //     return facility[field]
+  //       .toLowerCase()
+  //       .includes(dataSearchParameterLowerCase.toLowerCase());
+  //   });
+  //   setQueryOfFacilitiesData(queriedFacilities);
+  //   setWasQueryOfData(true);
+  // };
+
+  
+  const handleSearchQueryFacility = (e: any) => {
+    const dataStringSearch = e.target.value;
+    if (dataStringSearch === "") {
+      setWasQueryOfDataFacility(false);
+    } else {
+      dataSearchParameterLowerCase = dataStringSearch.toLowerCase();
+      const queriedFacilities = facilities.filter((facility: any) => {
+        return facility[fieldFacility]
+          .toLowerCase()
+          .includes(dataSearchParameterLowerCase.toLowerCase());
+      });
+      // facilities = queriedFacilities;
+      setQueryOfFacilitiesData(queriedFacilities);
+      setWasQueryOfDataFacility(true);
+    }
+  };
+
+  const savingProgress = () =>  <p style={{color: "green"}}>Saving...</p>;
+  const updateProgress = () =>  <p style={{color: "green"}}>Updating...</p>;
+  const deleteProgress = () =>  <p style={{color: "red"}}>Deleting...</p>;
+  
  
-   
-   
+
   return (
     <>
-       <Typography variant="h6">
-         Facilities
-       </Typography>
-       <Box display="flex"
-            justifyContent="flex-end"
-            mb={2}
-       >
-          <TextField
-             label="Search..."
-             onChange={(e) => handleSearchQuery(e)}
-          />
-          <Box sx={{ minWidth: 120 }}>
-           <FormControl fullWidth>
-             
-             <TextField
-                id="select-field-query"
-                select
-                value={field}
-                label="Field"
-                onChange={handleChangeField}
-                helperText="Please select your query field"
-             >
-                {fields.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-             </TextField>
-           </FormControl>
-          </Box>  
-       </Box>
-
-    
-       <DataModal 
-          open={open}
-          isAdd={isAdd}
-          isEdit={isEdit}
-          isDelete={isDelete}
-          handleClose={handleClose}
-          handleSave={handleSaveRecord}
-          handleValueChanged={setFacilityData}
-          handleValueChangedAsEdited={handleValueChangedAsEdited}
-          recordRowObjectForUpdate={recordRowObjectForUpdate}
-          columns={facilitiesColumns}
-          rowEditData={rowEditData}
-          hasAllEntries={hasAllEntries}
-       />
-
-       <DataTable 
-          arrayOfData={!wasQueryOfData ? facilities: queryOfFacilitiesData}
-          // arrayOfData={facilities}
-          columns={facilitiesColumns}
-          handleEditRecord={(row: any) => handleEditRecord(row)}
-          handleDeleteRecord={(row: any) => handleDeleteRecord(row)}
-       />
-   
-      <Box mt={2}
-           display="flex"
-           justifyContent="flex-end"
-      >
-         <Button 
-           variant="contained"
-           onClick={() => handleAddRecord()}
-         >
-           Add Facility
-         </Button> 
-        
+     
+      <Typography variant="h6">Facilities</Typography>
+      <Box display="flex" justifyContent="flex-end" mb={2}>
+        <TextField label="Search..." onChange={(e) => handleSearchQueryFacility(e)} />
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <TextField
+              id="select-field-query"
+              select
+              value={fieldFacility}
+              label="Field"
+              onChange={handleChangeFieldFacility}
+              helperText="Please select your query field"
+            >
+              {fields.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
+        </Box>
       </Box>
- 
+
+      {
+        (createFacilityLoading && savingProgress())
+      }
+
+      {
+        (modifyFacilityLoading && updateProgress())
+      }
+
+      {
+        (deleteFacilityLoading && deleteProgress())
+      }
+
+      <DataModal
+        open={open}
+        isAdd={isAddFacility}
+        isEdit={isEditFacility}
+        isDelete={isDeleteFacility}
+        handleClose={handleClose}
+        handleProcessRecord={handleProcessRecordFacility}
+        handleValueChanged={setFacilityData}
+        handleValueChangedAsEdited={handleValueChangedAsEditedFacility}
+        recordRowObjectForUpdate={recordRowObjectForUpdateFacility}
+        rowDeleteData={rowDeleteDataFacility}
+        columns={facilitiesColumns}
+        rowEditData={rowEditDataFacility}
+        hasAllEntries={hasAllEntries}
+        maintenanceOptionTitle={"Facility"}
+      />
+
+      <DataTable
+        arrayOfData={!wasQueryOfDataFacility ? facilities : queryOfFacilitiesData}
+        columns={facilitiesColumns}
+        handleEditRecord={(row: any) => handleEditRecordFacility(row)}
+        handleDeleteRecord={(row: any) => handleDeleteRecordFacility(row)}
+       
+      />
+
+      <Box mt={2} display="flex" justifyContent="flex-end">
+        <Button variant="contained" onClick={() => handleAddRecord()}>
+          Add Facility
+        </Button>
+      </Box>
     </>
-  ) 
+  );
 };
 
 export default FacilitiesPage;
-
-

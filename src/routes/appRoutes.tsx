@@ -1,28 +1,30 @@
+import React from "react";
 import DashboardPageLayout from "../pages/dashboard/DashboardPageLayout";
 import HomePage from "../pages/home/HomePage";
 import { RouteType } from "./config";
 import DefaultPage from "../pages/dashboard/DefaultPage";
 import DashboardIndex from "../pages/dashboard/DashboardIndex";
-import ChangelogPage from "../pages/changelog/ChangelogPage";
 import AnalyticsPage from "../pages/dashboard/AnalyticsPage";
 import SaasPage from "../pages/dashboard/SaasPage";
 import ComponentPageLayout from "../pages/component/ComponentPageLayout";
-import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined';
-import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
-import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import OfficialsPage from "../pages/component/OfficialsPage";
 import FacilitiesPage from "../pages/component/FacilitiesPage";
-import ButtonPage from "../pages/component/ButtonPage";
+import LevelsPage from "../pages/component/LevelsPage";
+import OpponentsPage from "../pages/component/OpponentsPage";
+import PreparationsPage from "../pages/component/PreparationsPage";
+import WorkersPage from "../pages/component/WorkersPage";
 import InstallationPage from "../pages/installation/InstallationPage";
 import DocumentationPage from "../pages/documentation/DocumentationPage";
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
-import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
+import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 
 const appRoutes: RouteType[] = [
   {
     index: true,
     element: <HomePage />,
-    state: "home"
+    state: "home",
   },
   {
     path: "/installation",
@@ -30,8 +32,8 @@ const appRoutes: RouteType[] = [
     state: "installation",
     sidebarProps: {
       displayText: "Events",
-      icon: <CalendarMonthOutlinedIcon />
-    }
+      icon: <CalendarMonthOutlinedIcon />,
+    },
   },
   {
     path: "/dashboard",
@@ -39,20 +41,20 @@ const appRoutes: RouteType[] = [
     state: "dashboard",
     sidebarProps: {
       displayText: "Notices",
-      icon: <MailOutlineOutlinedIcon />
+      icon: <MailOutlineOutlinedIcon />,
     },
     child: [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index"
+        state: "dashboard.index",
       },
       {
         path: "/dashboard/default",
         element: <DefaultPage />,
         state: "dashboard.default",
         sidebarProps: {
-          displayText: "Default"
+          displayText: "Default",
         },
       },
       {
@@ -60,18 +62,18 @@ const appRoutes: RouteType[] = [
         element: <AnalyticsPage />,
         state: "dashboard.analytics",
         sidebarProps: {
-          displayText: "Analytic"
-        }
+          displayText: "Analytic",
+        },
       },
       {
         path: "/dashboard/saas",
         element: <SaasPage />,
         state: "dashboard.saas",
         sidebarProps: {
-          displayText: "Saas"
-        }
-      }
-    ]
+          displayText: "Saas",
+        },
+      },
+    ],
   },
   {
     path: "/component",
@@ -79,7 +81,7 @@ const appRoutes: RouteType[] = [
     state: "component",
     sidebarProps: {
       displayText: "Maintenance",
-      icon: <BuildOutlinedIcon />
+      icon: <BuildOutlinedIcon />,
     },
     child: [
       {
@@ -87,50 +89,50 @@ const appRoutes: RouteType[] = [
         element: <FacilitiesPage />,
         state: "component.facility",
         sidebarProps: {
-          displayText: "Facilities"
+          displayText: "Facilities",
         },
       },
       {
-        path: "/component/button",
-        element: <ButtonPage />,
-        state: "component.button",
+        path: "/component/level",
+        element: <LevelsPage />,
+        state: "component.level",
         sidebarProps: {
-          displayText: "Levels"
-        }
+          displayText: "Levels",
+        },
       },
       {
-        path: "/component/button",
-        element: <ButtonPage />,
-        state: "component.button",
+        path: "/component/official",
+        element: <OfficialsPage />,
+        state: "component.official",
         sidebarProps: {
-          displayText: "Officials"
-        }
+          displayText: "Officials",
+        },
       },
       {
-        path: "/component/button",
-        element: <ButtonPage />,
-        state: "component.button",
+        path: "/component/opponent",
+        element: <OpponentsPage />,
+        state: "component.opponent",
         sidebarProps: {
-          displayText: "Opponents"
-        }
+          displayText: "Opponents",
+        },
       },
       {
-        path: "/component/button",
-        element: <ButtonPage />,
-        state: "component.button",
+        path: "/component/preparation",
+        element: <PreparationsPage />,
+        state: "component.preparation",
         sidebarProps: {
-          displayText: "Preparations"
-        }
+          displayText: "Preparations",
+        },
       },
       {
-        path: "/component/button",
-        element: <ButtonPage />,
-        state: "component.button",
+        path: "/component/worker",
+        element: <WorkersPage />,
+        state: "component.worker",
         sidebarProps: {
-          displayText: "Workers"
-        }
-      }
-    ]
+          displayText: "Workers",
+        },
+      },
+    ],
   },
   {
     path: "/documentation",
@@ -138,8 +140,8 @@ const appRoutes: RouteType[] = [
     state: "documentation",
     sidebarProps: {
       displayText: "Documentation",
-      icon: <ArticleOutlinedIcon />
-    }
+      icon: <ArticleOutlinedIcon />,
+    },
   },
   // {
   //   path: "/changelog",

@@ -1,13 +1,13 @@
-import React from 'react';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import { Table, TableCell, TableBody, Paper } from '@mui/material';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import { tableCellClasses } from '@mui/material/TableCell';
-import { styled } from '@mui/material/styles';
+import React from "react";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import { Table, TableCell, TableBody, Paper } from "@mui/material";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import { tableCellClasses } from "@mui/material/TableCell";
+import { styled } from "@mui/material/styles";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -20,7 +20,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
+  "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
  
@@ -37,17 +37,20 @@ const DataTable = (props: any) => {
 
   const handleChangeRowsPerPage = (event: any) => {
     setRowsPerPage(event.target.value);
-    setPage(0);
+    if (rowsPerPage === 0) {
+      setPage(0);
+    }
+    
   };
 
   
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 540 }}>
         <Table stickyHeader aria-label="sticky table">
-          <TableHead sx={{ backgroundColor: ' #0000FF'}}>
+          <TableHead sx={{ backgroundColor: " #0000FF"}}>
             <StyledTableRow>
-              {props.columns.map((column: { id: React.Key | null | undefined; minWidth: any; label: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
+              {props.columns.map((column: any) => (
                 <StyledTableCell
                   key={column.id}
                   align="left"
@@ -68,19 +71,21 @@ const DataTable = (props: any) => {
                       const value = row[column.id];
                       return (
                         <StyledTableCell key={column.id} align="left">
-                           {column.id  === 'no'
-                            ? index + 1 + '.'
-                            : column.id === 'edit'
-                            ? <EditOutlinedIcon 
-                                style={{cursor: 'pointer'}}
+                          {column.id  === "no" ?
+                            index + 1 + "."
+                            : column.id === "edit" ? 
+                              <EditOutlinedIcon 
+                                style={{ cursor: "pointer" }}
                                 onClick={() => props.handleEditRecord(row)}
                               />
-                            : column.id === 'delete'
-                            ? <DeleteOutlinedIcon
-                                style={{cursor: 'pointer'}}
-                                onClick={() => props.handleDeleteRecord(row)}
-                              />
-                            :value}
+                              : column.id === "delete"
+                                ? <DeleteOutlinedIcon
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => props.handleDeleteRecord(row)}
+                                />
+                                : 
+                                value
+                          }
                         </StyledTableCell>
                       );
                     })}
@@ -100,10 +105,10 @@ const DataTable = (props: any) => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
-  )
+  );
     
  
-}
+};
 
 export default DataTable;
 
