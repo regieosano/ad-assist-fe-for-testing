@@ -14,7 +14,6 @@ const DataModal = (props: {
   rowEditData: any;
   rowDeleteData: any;
   recordRowObjectForUpdate: object;
-  // recordRowObjectForDeletion: object;
   handleClose: Function;
   handleProcessRecord: Function;
   handleValueChanged: Function;
@@ -25,7 +24,7 @@ const DataModal = (props: {
 }) => {
   const style = {
     position: "absolute",
-    top: "40%",
+    top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 800,
@@ -49,7 +48,7 @@ const DataModal = (props: {
             { 
               props.isAdd ? `Add New ${props.maintenanceOptionTitle}`:
                 props.isEdit ? `Edit ${props.maintenanceOptionTitle}`:
-                  "Delete Facility"
+                  `Delete ${props.maintenanceOptionTitle} `
             }		
           </Typography>
           <Box
@@ -90,7 +89,6 @@ const DataModal = (props: {
                       sx={{ 
                         width: 700
                       }}
-                      // value={props.isEdit ? props.rowEditData[column.id]: ""}
                       InputProps={{
                         readOnly: props.isDelete                        
                       }}

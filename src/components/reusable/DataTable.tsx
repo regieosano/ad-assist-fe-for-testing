@@ -66,7 +66,7 @@ const DataTable = (props: any) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row: any, index: number) => {
                 return (
-                  <StyledTableRow hover tabIndex={-1} key={row.id}>
+                  <StyledTableRow hover tabIndex={-1} key={index}>
                     {props.columns.map((column: { id: React.Key }) => {
                       const value = row[column.id];
                       return (

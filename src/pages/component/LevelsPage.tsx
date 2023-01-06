@@ -20,7 +20,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 
 const LevelsPage = () => {
-  const fields = [
+  const fieldsLevel = [
     {
       value: "level",
       label: "Level Name",
@@ -61,8 +61,6 @@ const LevelsPage = () => {
   const [schoolCode, setSchoolCode] = React.useState("");
   const [level, setLevel] = React.useState("");
   const [description, setDescription] = React.useState("");
-
-  
  
   const [wasQueryOfDataLevel, setWasQueryOfDataLevel] = React.useState(false);
   const [queryOfLevelsData, setQueryOfLevelsData] = React.useState([]);
@@ -74,7 +72,6 @@ const LevelsPage = () => {
   const [idOfRecordToBeDeletedLevel, setIdOfRecordToBeDeletedLevel] = React.useState("");
 
   const [rowDeleteDataLevel, setRowDeleteDataLevel] = React.useState({});
- 
  
 
   const [open, setOpen] = React.useState(false);
@@ -165,18 +162,6 @@ const LevelsPage = () => {
   };
 
   const setLevelData = (e: any) => {
-    // if (schoolCode.length === 0
-    //     || placeName.length === 0
-    //     || address1.length === 0
-    //     || address2.length === 0
-    //     || city.length === 0
-    //     || state.length === 0
-    //     || zipCode.length === 0)
-    // {
-    //   setHasAllEntries(false);
-    // } else {
-    //   setHasAllEntries(true);
-    // }
     switch (e.target.id) {
     case "schoolCode":
       setSchoolCode(e.target.value);
@@ -215,7 +200,6 @@ const LevelsPage = () => {
           .toLowerCase()
           .includes(dataSearchParameterLowerCase.toLowerCase());
       });
-      // facilities = queriedFacilities;
       setQueryOfLevelsData(queriedLevels);
       setWasQueryOfDataLevel(true);
     }
@@ -241,7 +225,7 @@ const LevelsPage = () => {
               onChange={handleChangeFieldLevel}
               helperText="Please select your query field"
             >
-              {fields.map((option) => (
+              {fieldsLevel.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
@@ -272,7 +256,7 @@ const LevelsPage = () => {
         columns={levelsColumns}
         hasAllEntries={false}
         handleValueChangedAsEdited={() => {return;}}
-        handleValueChanged={() => {return;}}
+        handleValueChanged={setLevelData}
         maintenanceOptionTitle={"Level"}
       />
 

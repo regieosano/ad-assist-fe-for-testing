@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-shadow */
-import * as React from "react";
+import { refetchQueries } from "refetch-queries";
+import React from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { GET_FACILITIES } from "../../graphql/facility/queries";
 import {
@@ -21,7 +23,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 
 const FacilitiesPage = () => {
-  const fields = [
+  const fieldsFacility = [
     {
       value: "placeName",
       label: "Place Name",
@@ -129,8 +131,8 @@ const FacilitiesPage = () => {
       state: String,
       zipCode: String,
     });
+   
  
-
 
   const [open, setOpen] = React.useState(false);
 
@@ -159,6 +161,7 @@ const FacilitiesPage = () => {
     setIsDeleteFacility(false);
   };
 
+  
   const [
     createFacility,
     {
@@ -178,6 +181,7 @@ const FacilitiesPage = () => {
       data: modifyFacilityData,
     },
   ] = useMutation(EDIT_FACILITY, {
+  
     update(cache, { data: { modifyFacility } }) {
       cache.modify({
         fields: {
@@ -237,6 +241,7 @@ const FacilitiesPage = () => {
       },
     });
     handleClose();
+    setQueryOfFacilitiesData(facilities);
   };
 
   const handleAddRecord = () => {
@@ -403,7 +408,6 @@ const FacilitiesPage = () => {
 
   const handleChangeFieldFacility = (event: any) => {
     setFieldFacility(event.target.value);
-    // handleSearchQueryBasedOnCurrentFieldStored();
   };
 
   // const handleSearchQueryBasedOnCurrentFieldStored = () => {
@@ -456,7 +460,7 @@ const FacilitiesPage = () => {
               onChange={handleChangeFieldFacility}
               helperText="Please select your query field"
             >
-              {fields.map((option) => (
+              {fieldsFacility.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
